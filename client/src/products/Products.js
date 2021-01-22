@@ -2,52 +2,44 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ListGroup, Row, Col, Button } from "react-bootstrap";
 import axios from 'axios';
-import DeleteModal from "./DeleteModal";
-import { useHistory } from 'react-router-dom'
 
-function Posts() {
+function Products() {
   const [state, setstate] = useState([]);
-  const history = useHistory();
+  const [msg, setMsg] = useState('');
 
-// const dispatch = useDispatch()
-// const posts = useSelector(state =>{
-//   console.log(state)
-// })
-// console.log(posts)
-  const [msg, setmsg] = useState('')
-  const handleDelete = (id)=>{
-    console.log(id)
-    axios.delete('http://localhost:4000/api/posts/'+id)
-    .then((res) => {
-      console.log(res.data);
-      setmsg(`${id} is deleted successfully`);
-       history.push('/posts')
-
-    })
-    .catch((e) => console.log(e));
-
-  }
   useEffect(() => {
-console.log('i am in useeffect of posts')
- //dispatch(fetchAllPosts)
-    
-      axios.get('http://localhost:4000/api/posts/')
+      axios.get('http://localhost:4000/api/products')
       .then((res) => {
-        console.log(res.data);
+        console.log(res.data.data);
         setstate(res.data.data);
       })
       .catch((e) => console.log(e));
   }, []);
+  console.log(state)
+
+  const handleDelete = (id) => {
+    axios.delete('http://localhost:4000/api/products/'+ id)
+    .then(
+        (res) => {
+          // res.json();
+          setMsg('Product was deleted');
+          console.log(msg)
+      })
+      .catch((err) => console.log(err));
+    // window.location='/posts';
+  }
+
   return (
+
     <Row className="mt-5">
       <Col lg={3} md={2} sm={1} xs={1}></Col>
       <Col lg={6} md={8} sm={10} xs={10}>
-        <p>{msg}</p>
         <ListGroup>
           <ListGroup.Item variant="primary">
             <Row className="col-headers">
               <Col>Name</Col>
-              <Col>Email</Col>
+              <Col>Description</Col>
+              <Col>Image</Col>
               <Col>Actions</Col>
             </Row>
           </ListGroup.Item>
@@ -55,34 +47,29 @@ console.log('i am in useeffect of posts')
           {state.map((item, ind) => (
             <ListGroup.Item key={ind} variant="light">
               <Row>
-                <Col>{item.title}</Col>
+                <Col>{item.name}</Col>
                 <Col>{item.description}</Col>
+                <Col><img width={100} src={item.image} /></Col>
                 <Col>
-                <Button 
-                    variant="info"
-                    size="sm"
-                    as={Link}
-                    to={"/single-post/" + item._id}
-                  >
-                    View
-                  </Button>&nbsp;
                   <Button 
                     variant="info"
                     size="sm"
                     as={Link}
-                    to={"/update-post/" + item._id}
+                    to={"/single-product/" + item._id}
                   >
-                    Edit
-                  </Button>&nbsp;
-                  {/* <Button 
+                    View
+                  </Button>
+                </Col>
+                <Col>
+                  <Button 
                     variant="info"
-                    size="sm" 
+                    size="sm"
                     onClick={()=>handleDelete(item._id)}
+                    // as={Link}
+                    // to={"/single-product/" + item._id}
                   >
                     Delete
-                  </Button> */}
-                  <DeleteModal handleDelete={handleDelete} id={item._id}/>
-
+                  </Button>
                 </Col>
               </Row>
             </ListGroup.Item>
@@ -94,4 +81,4 @@ console.log('i am in useeffect of posts')
   );
 }
 
-export default Posts;
+export default Products;

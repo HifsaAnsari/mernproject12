@@ -5,7 +5,7 @@ const dbConnect = require('./config/db.js');
 var cors = require('cors')
 const userRoute  = require('./routes/api/users.js')
 const postRoute =  require('./routes/api/posts.js')
-
+const prodRoute = require('./routes/api/product');
 const app = express();
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -21,4 +21,4 @@ console.log('server is running at', PORT)
 ///Routes
 app.use('/api/users', userRoute)
 app.use('/api/posts', postRoute)
-
+app.use('/api/products', prodRoute );

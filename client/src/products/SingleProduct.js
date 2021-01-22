@@ -3,14 +3,14 @@ import { useEffect, useState } from "react";
 import { ListGroup, Row, Col } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 
-const SingleUser = () => {
+const SingleProduct = () => {
   const { id } = useParams();
-  const [user, setUser] = useState(null);
+  const [product, setProduct] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:4000/api/users/" + id)
+    fetch("http://localhost:4000/api/products/" + id)
       .then((res) => res.json())
-      .then((data) => setUser(data.data))
+      .then((data) => setProduct(data.data))
       .catch((err) => console.log(err));
   }, [id]);
   // console.log(user);
@@ -21,24 +21,24 @@ const SingleUser = () => {
       <Col lg={6} md={8} sm={10} xs={10}>
         <ListGroup>
           <ListGroup.Item variant="primary" className="col-headers">
-            Selected User information
+            Selected Product information
           </ListGroup.Item>
           <ListGroup.Item variant="light">
             <Row>
               <Col className="col-headers">ID</Col>
-              <Col>{user?._id}</Col>
+              <Col>{product?._id}</Col>
             </Row>
             <Row>
               <Col className="col-headers">Name</Col>
-              <Col>{user?.name}</Col>
+              <Col>{product?.name}</Col>
             </Row>
             <Row>
-              <Col className="col-headers">Email</Col>
-              <Col>{user?.email}</Col>
+              <Col className="col-headers">Description</Col>
+              <Col>{product?.description}</Col>
             </Row>
             <Row>
-              <Col className="col-headers">Password</Col>
-              <Col>{user?.pwd}</Col>
+              <Col className="col-headers">Image</Col>
+              <Col><img width={100} src={product?.image} /></Col>
             </Row>
           </ListGroup.Item>
         </ListGroup>
@@ -48,4 +48,4 @@ const SingleUser = () => {
   );
 };
 
-export default SingleUser;
+export default SingleProduct;

@@ -1,25 +1,23 @@
 import React, { useState } from "react";
 import { Button, ListGroup, Row, Col } from "react-bootstrap";
 import axios from 'axios';
+import FileBase64 from 'react-file-base64';
 
-function Add() {
+
+function AddProduct() {
  const [name,setName]=useState('')
- const [email,setEmail]=useState('')
- const [pwd,setPwd]=useState('')
-  // to check single user and no repeat
- const [unique, setUnique] = useState('');
+ const [desc,setDesc]=useState('')
+ const [image,setImage]=useState('')
+
 const handleSubmit=(e)=>{
-   e.preventDefault();
-  let user = {name, email, pwd};
+  e.preventDefault();
+  let product = {name, desc, image};
   // console.log(user)
-      axios.post('http://localhost:4000/api/users', user)
-      .then(res => {
-        setUnique(res.data.unique);
-        console.log(res.data)
-      })
+      axios.post('http://localhost:4000/api/products', product)
+      .then(res => console.log(res.data))
       .catch(err=>console.log(err,'error'));
 
-   // window.location = '/users';
+    // window.location = '/products';
 
 }
 
@@ -31,7 +29,7 @@ const handleSubmit=(e)=>{
         <Col lg={6} md={8} sm={10} xs={10}>
           <ListGroup>
             <ListGroup.Item variant="primary" className="col-headers">
-              Register New User
+              Register New Product
             </ListGroup.Item>
             <ListGroup.Item variant="light">
               <Row>
@@ -43,15 +41,20 @@ const handleSubmit=(e)=>{
               <Row>
                 <Col className="col-headers">Email</Col>
                 <Col>
-                  <input type="text" name='email' onChange={(e)=>setEmail(e.target.value)} />
+                  <input type="text" name='email' onChange={(e)=>setDesc(e.target.value)} />
                 </Col>
               </Row>
               <Row>
-                <Col className="col-headers">Password</Col>
+                <Col className="col-headers">Image</Col>
                 <Col>
-                  <input type="password" name='pwd' onChange={(e)=>setPwd(e.target.value)} />
+                <FileBase64 
+                    multiple={false}
+                    onDone={({base64})=>setImage(base64)}>
+                </FileBase64>
+                  {/* <input type="file" name='' onChange={(e)=>setImage(e.target.value)} /> */}
                 </Col>
               </Row>
+             
               <Row className="my-2">
                 <Col className="text-center">
                   <Button type='submit' variant="info" size="md">
@@ -68,4 +71,4 @@ const handleSubmit=(e)=>{
   );
 }
 
-export default Add;
+export default AddProduct;

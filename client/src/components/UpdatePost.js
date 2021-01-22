@@ -2,10 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { ListGroup, Row, Col } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux'
-import { fetchSinglePost } from "../store/mainSlice";
 import axios from 'axios'
-
 const UpdatePost = () => {
   const { id } = useParams();
   const [user, setUser] = useState(null);

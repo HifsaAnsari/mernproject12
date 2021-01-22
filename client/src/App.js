@@ -11,6 +11,9 @@ import AddPost from "./components/AddPost";
 import Posts from "./components/Posts";
 import SinglePost from "./components/SinglePost";
 import UpdatePost from "./components/UpdatePost";
+import Products from "./products/Products";
+import SingleProduct from "./products/SingleProduct";
+import AddProduct from "./products/AddProduct";
 function App() {
   return (
     <Router>
@@ -41,9 +44,23 @@ function App() {
           <Route path="/update-post/:id">
             <UpdatePost />
           </Route>
+
+
+          <Route path="/products">
+            <Products />
+          </Route>
+          <Route path="/add-product">
+           <AddProduct />
+          </Route>
+          <Route path="/single-product/:id">
+            <SingleProduct/>
+          </Route>
+
+
           <Route path="/">
             <Home />
           </Route>
+
         </Switch>
       </div>
     </Router>
